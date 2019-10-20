@@ -14,6 +14,7 @@
 #import <React/RCTJavaScriptLoader.h>
 #import <React/RCTLinkingManager.h>
 #import <React/RCTRootView.h>
+#import <React/RCTHTTPRequestHandler.h>
 
 #import <cxxreact/JSExecutor.h>
 
@@ -44,6 +45,13 @@
 
 - (BOOL)application:(__unused UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [RCTHTTPRequestHandler setNSURLSessionConfigurationProvider:^NSURLSessionConfiguration * {
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    [configuration setHTTPShouldSetCookies:YES];
+    [configuration setHTTPCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+    [configuration setHTTPCookieStorage:[NSHTTPCookieStorage sharedHTTPCookieStorage]];
+    return configuration;
+  }];
   RCTEnableTurboModule(YES);
 
   _bridge = [[RCTBridge alloc] initWithDelegate:self

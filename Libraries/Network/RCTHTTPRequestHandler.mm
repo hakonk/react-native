@@ -15,6 +15,8 @@
 
 @end
 
+static NSURLSessionConfigurationProvider urlSessionConfigurationProvider;
+
 @implementation RCTHTTPRequestHandler
 {
   NSMapTable *_delegates;
@@ -26,6 +28,10 @@
 @synthesize methodQueue = _methodQueue;
 
 RCT_EXPORT_MODULE()
+
++(void)setNSURLSessionConfigurationProvider:(NSURLSessionConfigurationProvider)provider {
+    urlSessionConfigurationProvider = provider;
+}
 
 - (void)invalidate
 {
@@ -72,14 +78,20 @@ RCT_EXPORT_MODULE()
     NSOperationQueue *callbackQueue = [NSOperationQueue new];
     callbackQueue.maxConcurrentOperationCount = 1;
     callbackQueue.underlyingQueue = [[_bridge networking] methodQueue];
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    // Set allowsCellularAccess to NO ONLY if key ReactNetworkForceWifiOnly exists AND its value is YES
-    if (useWifiOnly) {
-      configuration.allowsCellularAccess = ![useWifiOnly boolValue];
+    NSURLSessionConfiguration *configuration;
+    if (urlSessionConfigurationProvider) {
+      configuration = urlSessionConfigurationProvider();
+    } else {
+      NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+      // Set allowsCellularAccess to NO ONLY if key ReactNetworkForceWifiOnly exists AND its value is YES
+      if (useWifiOnly) {
+        configuration.allowsCellularAccess = ![useWifiOnly boolValue];
+      }
+      [configuration setHTTPShouldSetCookies:YES];
+      [configuration setHTTPCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+      [configuration setHTTPCookieStorage:[NSHTTPCookieStorage sharedHTTPCookieStorage]];
     }
-    [configuration setHTTPShouldSetCookies:YES];
-    [configuration setHTTPCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-    [configuration setHTTPCookieStorage:[NSHTTPCookieStorage sharedHTTPCookieStorage]];
+
     _session = [NSURLSession sessionWithConfiguration:configuration
                                              delegate:self
                                         delegateQueue:callbackQueue];

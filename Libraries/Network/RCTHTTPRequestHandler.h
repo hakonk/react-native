@@ -8,9 +8,13 @@
 #import <React/RCTInvalidating.h>
 #import <React/RCTURLRequestHandler.h>
 
+@class NSURLSessionConfiguration;
+
+typedef NSURLSessionConfiguration* (^NSURLSessionConfigurationProvider)(void);
+
 /**
  * This is the default RCTURLRequestHandler implementation for HTTP requests.
  */
 @interface RCTHTTPRequestHandler : NSObject <RCTURLRequestHandler, RCTInvalidating>
-
++(void)setNSURLSessionConfigurationProvider:(NSURLSessionConfigurationProvider)provider;
 @end
