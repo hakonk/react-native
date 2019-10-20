@@ -82,7 +82,7 @@ RCT_EXPORT_MODULE()
     if (urlSessionConfigurationProvider) {
       configuration = urlSessionConfigurationProvider();
     } else {
-      NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+      configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
       // Set allowsCellularAccess to NO ONLY if key ReactNetworkForceWifiOnly exists AND its value is YES
       if (useWifiOnly) {
         configuration.allowsCellularAccess = ![useWifiOnly boolValue];
