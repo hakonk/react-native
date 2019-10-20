@@ -6,7 +6,12 @@
  */
 
 #import <React/RCTInvalidating.h>
+#import <React/RCTBridgeModule.h>
 #import <React/RCTURLRequestHandler.h>
+
+@protocol RCTHTTPRequestHandlerConfigurationProvider <RCTBridgeModule>
+-(NSURLSessionConfiguration *)sessionConfiguration;
+@end
 
 @class NSURLSessionConfiguration;
 
