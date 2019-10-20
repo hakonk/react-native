@@ -9,17 +9,15 @@
 #import <React/RCTBridgeModule.h>
 #import <React/RCTURLRequestHandler.h>
 
+@class NSURLSessionConfiguration;
+
 @protocol RCTHTTPRequestHandlerConfigurationProvider <RCTBridgeModule>
 -(NSURLSessionConfiguration *)sessionConfiguration;
 @end
-
-@class NSURLSessionConfiguration;
-
-typedef NSURLSessionConfiguration* (^NSURLSessionConfigurationProvider)(void);
 
 /**
  * This is the default RCTURLRequestHandler implementation for HTTP requests.
  */
 @interface RCTHTTPRequestHandler : NSObject <RCTURLRequestHandler, RCTInvalidating>
-+(void)setNSURLSessionConfigurationProvider:(NSURLSessionConfigurationProvider)provider;
+
 @end

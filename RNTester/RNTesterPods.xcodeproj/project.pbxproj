@@ -18,6 +18,7 @@
 		5C60EB1C226440DB0018C04F /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5C60EB1B226440DB0018C04F /* AppDelegate.mm */; };
 		5CB07C9B226467E60039471C /* RNTesterTurboModuleProvider.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5CB07C99226467E60039471C /* RNTesterTurboModuleProvider.mm */; };
 		8BBFF9F061783A02D50DD2EC /* libPods-RNTesterIntegrationTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8210317F3CE28B1945488740 /* libPods-RNTesterIntegrationTests.a */; };
+		A9C9CE56235D0D8600571141 /* RNTesterURLSessionConfigurationProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C9CE55235D0D8600571141 /* RNTesterURLSessionConfigurationProvider.m */; };
 		E7C1241A22BEC44B00DA25C0 /* RNTesterIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C1241922BEC44B00DA25C0 /* RNTesterIntegrationTests.m */; };
 		E7DB20D122B2BAA6005AC45F /* RCTBundleURLProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7DB20A922B2BAA3005AC45F /* RCTBundleURLProviderTests.m */; };
 		E7DB20D222B2BAA6005AC45F /* RCTModuleInitNotificationRaceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7DB20AA22B2BAA3005AC45F /* RCTModuleInitNotificationRaceTests.m */; };
@@ -90,6 +91,8 @@
 		8210317F3CE28B1945488740 /* libPods-RNTesterIntegrationTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNTesterIntegrationTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		972A459EE6CF8CC63531A088 /* Pods-RNTesterIntegrationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNTesterIntegrationTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RNTesterIntegrationTests/Pods-RNTesterIntegrationTests.debug.xcconfig"; sourceTree = "<group>"; };
 		98233960D1D6A1977D1C7EAF /* Pods-RNTester.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNTester.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RNTester/Pods-RNTester.debug.xcconfig"; sourceTree = "<group>"; };
+		A9C9CE54235D0D8600571141 /* RNTesterURLSessionConfigurationProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RNTesterURLSessionConfigurationProvider.h; path = RNTester/RNTesterURLSessionConfigurationProvider.h; sourceTree = "<group>"; };
+		A9C9CE55235D0D8600571141 /* RNTesterURLSessionConfigurationProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RNTesterURLSessionConfigurationProvider.m; path = RNTester/RNTesterURLSessionConfigurationProvider.m; sourceTree = "<group>"; };
 		E771AEEA22B44E3100EA1189 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RNTester/Info.plist; sourceTree = "<group>"; };
 		E7C1241922BEC44B00DA25C0 /* RNTesterIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNTesterIntegrationTests.m; sourceTree = "<group>"; };
 		E7DB209F22B2BA84005AC45F /* RNTesterUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RNTesterUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -215,6 +218,8 @@
 				5C60EB1B226440DB0018C04F /* AppDelegate.mm */,
 				5CB07C9A226467E60039471C /* RNTesterTurboModuleProvider.h */,
 				5CB07C99226467E60039471C /* RNTesterTurboModuleProvider.mm */,
+				A9C9CE54235D0D8600571141 /* RNTesterURLSessionConfigurationProvider.h */,
+				A9C9CE55235D0D8600571141 /* RNTesterURLSessionConfigurationProvider.m */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				2DDEF00F1F84BF7B00DBDF73 /* Images.xcassets */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
@@ -613,6 +618,7 @@
 				27F441EC1BEBE5030039B79C /* FlexibleSizeExampleView.m in Sources */,
 				5C60EB1C226440DB0018C04F /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				A9C9CE56235D0D8600571141 /* RNTesterURLSessionConfigurationProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

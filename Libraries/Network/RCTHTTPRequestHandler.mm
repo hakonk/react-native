@@ -15,8 +15,6 @@
 
 @end
 
-static NSURLSessionConfigurationProvider urlSessionConfigurationProvider;
-
 @implementation RCTHTTPRequestHandler
 {
   NSMapTable *_delegates;
@@ -28,10 +26,6 @@ static NSURLSessionConfigurationProvider urlSessionConfigurationProvider;
 @synthesize methodQueue = _methodQueue;
 
 RCT_EXPORT_MODULE()
-
-+(void)setNSURLSessionConfigurationProvider:(NSURLSessionConfigurationProvider)provider {
-    urlSessionConfigurationProvider = provider;
-}
 
 - (void)invalidate
 {
@@ -79,11 +73,9 @@ RCT_EXPORT_MODULE()
     callbackQueue.maxConcurrentOperationCount = 1;
     callbackQueue.underlyingQueue = [[_bridge networking] methodQueue];
     NSURLSessionConfiguration *configuration;
-      NSArray *modules = [_bridge modulesConformingToProtocol:@protocol(RCTHTTPRequestHandlerConfigurationProvider)];
-
-
-    if (modules && modules.count > 0) {
-        id <RCTHTTPRequestHandlerConfigurationProvider> provider = modules.firstObject;
+    NSArray *providers = [_bridge modulesConformingToProtocol:@protocol(RCTHTTPRequestHandlerConfigurationProvider)];
+    if (providers && providers.count > 0) {
+      id <RCTHTTPRequestHandlerConfigurationProvider> provider = providers.firstObject;
       configuration = [provider sessionConfiguration];
     } else {
       configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
