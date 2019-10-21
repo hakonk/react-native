@@ -57,22 +57,23 @@ RCT_EXPORT_MODULE()
 
 -(id <RCTHTTPRequestHandlerConfigurationProvider>)configurationProviderWithError:(NSError **)error {
   NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-  NSString *moduleName = [infoDictionary objectForKey:@"ReactHTTPConfigurationModuleName"];
-  if (!moduleName) {
+  NSNumber *appProvidesConfiguration = [infoDictionary objectForKey:@"ReactAppProvidesHTTPConfiguration"];
+  if (!appProvidesConfiguration) {
     return nil;
   }
-  id module = [_bridge moduleForName:moduleName];
-  if (!module) {
-    NSString *message = [NSString stringWithFormat:@"Could not find module with name %@", moduleName];
+  NSArray *modules = [_bridge modulesConformingToProtocol:@protocol(RCTHTTPRequestHandlerConfigurationProvider)];
+  if (modules.count > 1) {
+    NSString *message = [NSString stringWithFormat:@"Only a single RCTHTTPRequestHandlerConfigurationProvider can be implemented"];
     *error = RCTErrorWithMessage(message);
     return nil;
   }
-  if (![module conformsToProtocol:@protocol(RCTHTTPRequestHandlerConfigurationProvider)]) {
-    NSString *message = [NSString stringWithFormat:@"Module %@ does not conform to RCTHTTPRequestHandlerConfigurationProvider", moduleName];
+  id <RCTHTTPRequestHandlerConfigurationProvider> provider = modules.firstObject;
+  if (!provider) {
+    NSString *message = [NSString stringWithFormat:@"No RCTHTTPRequestHandlerConfigurationProvider module registered with the application"];
     *error = RCTErrorWithMessage(message);
     return nil;
   }
-  return module;
+  return provider;
 }
 
 - (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)request
