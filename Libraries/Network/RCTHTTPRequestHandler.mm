@@ -6,7 +6,7 @@
  */
 
 #import <React/RCTHTTPRequestHandler.h>
-
+#import <React/RCTUtils.h>
 #import <mutex>
 
 #import <React/RCTNetworking.h>
@@ -55,6 +55,26 @@ RCT_EXPORT_MODULE()
   return [schemes containsObject:request.URL.scheme.lowercaseString];
 }
 
+-(id <RCTHTTPRequestHandlerConfigurationProvider>)configurationProviderWithError:(NSError **)error {
+  NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+  NSString *moduleName = [infoDictionary objectForKey:@"ReactHTTPConfigurationModuleName"];
+  if (!moduleName) {
+    return nil;
+  }
+  id module = [_bridge moduleForName:moduleName];
+  if (!module) {
+    NSString *message = [NSString stringWithFormat:@"Could not find module with name %@", moduleName];
+    *error = RCTErrorWithMessage(message);
+    return nil;
+  }
+  if (![module conformsToProtocol:@protocol(RCTHTTPRequestHandlerConfigurationProvider)]) {
+    NSString *message = [NSString stringWithFormat:@"Module %@ does not conform to RCTHTTPRequestHandlerConfigurationProvider", moduleName];
+    *error = RCTErrorWithMessage(message);
+    return nil;
+  }
+  return module;
+}
+
 - (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)request
                          withDelegate:(id<RCTURLRequestDelegate>)delegate
 {
@@ -73,9 +93,12 @@ RCT_EXPORT_MODULE()
     callbackQueue.maxConcurrentOperationCount = 1;
     callbackQueue.underlyingQueue = [[_bridge networking] methodQueue];
     NSURLSessionConfiguration *configuration;
-    NSArray *providers = [_bridge modulesConformingToProtocol:@protocol(RCTHTTPRequestHandlerConfigurationProvider)];
-    if (providers && providers.count > 0) {
-      id <RCTHTTPRequestHandlerConfigurationProvider> provider = providers.firstObject;
+    NSError *configurationError;
+    id <RCTHTTPRequestHandlerConfigurationProvider> provider = [self configurationProviderWithError:&configurationError];
+    if (configurationError) {
+      RCTFatal(configurationError);
+    }
+    if (provider) {
       configuration = [provider sessionConfiguration];
     } else {
       configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
